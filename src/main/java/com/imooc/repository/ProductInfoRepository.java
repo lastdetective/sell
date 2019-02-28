@@ -1,4 +1,4 @@
-package com.imooc.reposotory;
+package com.imooc.repository;
 
 import com.imooc.dataobject.ProductInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
