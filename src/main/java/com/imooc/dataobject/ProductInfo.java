@@ -29,5 +29,4 @@ public class ProductInfo {
 
     private Date updateTime;
 
-
 }
