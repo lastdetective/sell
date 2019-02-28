@@ -22,7 +22,7 @@ public class OrderDetail {
 
     private Integer productQuantity;
 
-    private String prodictIcon;
+    private String productIcon;
 
     private Date createTime;
 
