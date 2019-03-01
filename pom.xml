@@ -12,7 +12,7 @@
     <artifactId>sell</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sell</name>
-    <description>Demo project for Spring Boot</description>
+ 我阿里蓄势待   <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
