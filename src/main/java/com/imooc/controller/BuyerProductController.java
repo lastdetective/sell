@@ -11,6 +11,7 @@ import com.imooc.service.CategoryService;
 import com.imooc.service.ProductService;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +48,23 @@ public class BuyerProductController {
 
         List<ProductCategory> productCategoryList =
                 categoryService.findByCategoryTypeIn(categoryTypeList);
+
+        List<ProductVO> productVOList = new ArrayList<>();
+        for (ProductInfo productInfo : productInfoList) {
+
+            for (ProductCategory productCategory : productCategoryList) {
+                if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
+                    ProductInfoVO productInfoVO = new ProductInfoVO();
+                    BeanUtils.copyProperties(productInfo, productInfoVO);
+                    break;
+                }
+            }
+            productVO.
+
+
+        }
+
+
         log.info("这个没有斜杠");
         ResultVO resultVO = new ResultVO();
 

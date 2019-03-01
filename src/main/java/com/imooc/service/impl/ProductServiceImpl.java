@@ -2,7 +2,7 @@ package com.imooc.service.impl;
 
 import com.imooc.dataobject.ProductInfo;
 import com.imooc.enums.ProductStatusEnum;
-import com.imooc.reposotory.ProductInfoRepository;
+import com.imooc.repository.ProductInfoRepository;
 import com.imooc.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
