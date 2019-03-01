@@ -46,7 +46,6 @@ public class BuyerProductController {
 
         List<ProductCategory> productCategoryList =
                 categoryService.findByCategoryTypeIn(categoryTypeList);
-
         log.info("这个没有斜杠");
         ResultVO resultVO = new ResultVO();
 
