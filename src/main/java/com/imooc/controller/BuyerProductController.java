@@ -68,6 +68,7 @@ public class BuyerProductController {
             productVO.setProductInfoVOList(productInfoVOList);
             productVOList.add(productVO);
         }
+        // 可以
         return ResultVOUtil.success(productVOList);
     }
 }
