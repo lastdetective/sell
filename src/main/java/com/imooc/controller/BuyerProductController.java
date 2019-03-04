@@ -9,6 +9,7 @@ import com.imooc.dataobject.ProductInfo;
 import com.imooc.enums.ProductStatusEnum;
 import com.imooc.service.CategoryService;
 import com.imooc.service.ProductService;
+import com.imooc.utils.ResultVOUtil;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -49,42 +50,24 @@ public class BuyerProductController {
         List<ProductCategory> productCategoryList =
                 categoryService.findByCategoryTypeIn(categoryTypeList);
 
+        //3. 数据拼装
         List<ProductVO> productVOList = new ArrayList<>();
-        for (ProductInfo productInfo : productInfoList) {
+        for (ProductCategory productCategory : productCategoryList) {
+            ProductVO productVO = new ProductVO();
+            productVO.setCategoryType(productCategory.getCategoryType());
+            productVO.setCategoryName(productCategory.getCategoryName());
 
-            for (ProductCategory productCategory : productCategoryList) {
+            List<ProductInfoVO> productInfoVOList = new ArrayList<>();
+            for (ProductInfo productInfo : productInfoList) {
                 if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
                     ProductInfoVO productInfoVO = new ProductInfoVO();
                     BeanUtils.copyProperties(productInfo, productInfoVO);
-                    break;
+                    productInfoVOList.add(productInfoVO);
                 }
             }
-            productVO.
-
-
+            productVO.setProductInfoVOList(productInfoVOList);
+            productVOList.add(productVO);
         }
-
-
-        log.info("这个没有斜杠");
-        ResultVO resultVO = new ResultVO();
-
-        ProductVO productVO = new ProductVO();
-        productVO.setCategoryName("销售榜中榜");
-        productVO.setCategoryType(ProductStatusEnum.UP.getCode());
-
-        ProductInfoVO productInfoVO = new ProductInfoVO();
-        productInfoVO.setProductId("123456");
-        productInfoVO.setProductName("好吃的焖饭");
-        productInfoVO.setProductPrice(new BigDecimal(3.5));
-        productInfoVO.setProductIcon("http://2342.sdfa");
-        productInfoVO.setProductDescription("这是很好吃的焖饭");
-
-        productVO.setProductInfoVOList(Arrays.asList(productInfoVO));
-        resultVO.setData(Arrays.asList(productVO));
-        resultVO.setCode(ProductStatusEnum.UP.getCode());
-        resultVO.setMsg("查找成功");
-
-        return resultVO;
-
+        return ResultVOUtil.success(productVOList);
     }
 }
