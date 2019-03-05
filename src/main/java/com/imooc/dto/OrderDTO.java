@@ -1,22 +1,18 @@
-package com.imooc.dataobject;
+package com.imooc.dto;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.imooc.dataobject.OrderDetail;
 import com.imooc.enums.OrderStatusEnum;
 import com.imooc.enums.PayStatusEnum;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
 
 @Data
-@Entity
-@DynamicUpdate
-public class OrderMaster {
-    @Id
+public class OrderDTO {
     private String orderId;
 
     private String buyerName;
@@ -37,5 +33,5 @@ public class OrderMaster {
 
     private Date updateTime;
 
-
+    private List<OrderDetail> detailList;
 }
