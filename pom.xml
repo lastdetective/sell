@@ -8,11 +8,11 @@
         <version>2.1.3.RELEASE</version>
         <relativePath/>
     </parent>
-   newmaster1 <groupId>com.imooc</groupId>
+    <groupId>com.imooc</groupId>
     <artifactId>sell</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>sell</name>
- 我阿里蓄势待   <description>Demo project for Spring Boot</description>
+    <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
