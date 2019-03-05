@@ -34,7 +34,7 @@ public class BuyerProductController {
 
 
     @Autowired
-    private CategoryService categoryService;
+    private  CategoryService categoryService;
 
 
     @GetMapping("/list")
