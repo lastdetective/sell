@@ -55,7 +55,12 @@ public class BuyerProductController {
 
         //3. 数据拼装
         List<ProductVO> productVOList = new ArrayList<>();
-        for (ProductCategory productCategory: productCategoryList) {
+        List<ProductCategory> productCategoryList =
+                categoryService.findByCategoryTypeIn(categoryTypeList);
+
+        //3. 数据拼装
+        List<ProductVO> productVOList = new ArrayList<>();
+        for (ProductCategory productCategory : productCategoryList) {
             ProductVO productVO = new ProductVO();
             productVO.setCategoryType(productCategory.getCategoryType());
             productVO.setCategoryName(productCategory.getCategoryName());
@@ -71,7 +76,6 @@ public class BuyerProductController {
             productVO.setProductInfoVOList(productInfoVOList);
             productVOList.add(productVO);
         }
-
         return ResultVOUtil.success(productVOList);
     }
-}
+
