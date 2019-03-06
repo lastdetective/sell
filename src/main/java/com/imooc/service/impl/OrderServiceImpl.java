@@ -1,5 +1,6 @@
 package com.imooc.service.impl;
 
+import com.imooc.converter.OrderMaster2OrderDTOConverter;
 import com.imooc.dataobject.OrderDetail;
 import com.imooc.dataobject.OrderMaster;
 import com.imooc.dataobject.ProductInfo;
@@ -17,13 +18,18 @@ import com.imooc.service.ProductService;
 import com.imooc.utils.IdGeneratorUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Transactional
+@Service
 public class OrderServiceImpl implements OrderService {
     /**
      * 创建订单
@@ -44,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductService productService;
 
+    @Transactional
     @Override
     public OrderDTO creteOrder(OrderDTO orderDTO) {
         // 1. 计算总价
@@ -81,6 +88,74 @@ public class OrderServiceImpl implements OrderService {
         ).collect(Collectors.toList());
         productService.decreaseQuantity(cartDTOList);
         return orderDTO;
+    }
+
+    /**
+     * 查询单个订单
+     *
+     * @param orderId
+     */
+    @Override
+    public OrderDTO findOne(String orderId) {
+        OrderMaster orderMaster = orderMasterRepository.findById(orderId).orElse(null);
+        if (orderMaster == null) {
+            // 订单不存在
+            throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+        }
+        List<OrderDetail> orderDetailList = orderDetailRepository.findByOrderId(orderId);
+        if (CollectionUtils.isEmpty(orderDetailList)) {
+            // 订单详情为空
+            throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
+        }
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(orderMaster, orderDTO);
+        orderDTO.setDetailList(orderDetailList);
+        return orderDTO;
+    }
+
+    /**
+     * 查询订单列表
+     *
+     * @param buyerOpenId
+     * @param pageable
+     */
+    @Override
+    public Page<OrderDTO> findList(String buyerOpenId, Pageable pageable) {
+        Page<OrderMaster> orderMasters =
+                orderMasterRepository.findByBuyerOpenid(buyerOpenId, pageable);
+        List<OrderDTO> orderDTOList =
+                OrderMaster2OrderDTOConverter.convert2List(orderMasters.getContent());
+        return new PageImpl<OrderDTO>(orderDTOList, pageable, orderMasters.getTotalElements());
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param orderDTO
+     */
+    @Override
+    public OrderDTO cancelOrder(OrderDTO orderDTO) {
+        return null;
+    }
+
+    /**
+     * 完结订单
+     *
+     * @param orderDTO
+     */
+    @Override
+    public OrderDTO finishOrder(OrderDTO orderDTO) {
+        return null;
+    }
+
+    /**
+     * 支付订单
+     *
+     * @param orderDTO
+     */
+    @Override
+    public OrderDTO paidOrder(OrderDTO orderDTO) {
+        return null;
     }
 
 }
