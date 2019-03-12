@@ -34,7 +34,7 @@ public class BuyerProductController {
 
 
     @Autowired
-    private  CategoryService categoryService;
+    private CategoryService categoryService;
 
 
     @GetMapping("/list")
@@ -55,18 +55,14 @@ public class BuyerProductController {
 
         //3. 数据拼装
         List<ProductVO> productVOList = new ArrayList<>();
-        List<ProductCategory> productCategoryList =
-                categoryService.findByCategoryTypeIn(categoryTypeList);
-
         //3. 数据拼装
-        List<ProductVO> productVOList = new ArrayList<>();
         for (ProductCategory productCategory : productCategoryList) {
             ProductVO productVO = new ProductVO();
             productVO.setCategoryType(productCategory.getCategoryType());
             productVO.setCategoryName(productCategory.getCategoryName());
 
             List<ProductInfoVO> productInfoVOList = new ArrayList<>();
-            for (ProductInfo productInfo: productInfoList) {
+            for (ProductInfo productInfo : productInfoList) {
                 if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
                     ProductInfoVO productInfoVO = new ProductInfoVO();
                     BeanUtils.copyProperties(productInfo, productInfoVO);
@@ -78,4 +74,5 @@ public class BuyerProductController {
         }
         return ResultVOUtil.success(productVOList);
     }
+}
 
