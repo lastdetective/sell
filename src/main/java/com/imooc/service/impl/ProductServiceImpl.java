@@ -40,6 +40,12 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
+
+    /**
+     * 减库存
+     *
+     * @param cartDTOList
+     */
     @Override
     @Transactional
     public void decreaseQuantity(List<CartDTO> cartDTOList) {
@@ -57,4 +63,26 @@ public class ProductServiceImpl implements ProductService {
             productInfoRepository.save(productInfo);
         }
     }
+
+    /**
+     * 加库存
+     *
+     * @param cartDTOList
+     */
+    @Override
+    @Transactional
+    public void increaseQuantity(List<CartDTO> cartDTOList) {
+        for (CartDTO cartDTO : cartDTOList) {
+            ProductInfo productInfo = productInfoRepository
+                    .findById(cartDTO.getProductId()).orElse(null);
+            if (productInfo == null) {
+                throw new SellException(ResultEnum.PRODUCT_NOT_EXIST.PRODUCT_NOT_EXIST);
+            }
+            Integer stock = productInfo.getProductStock() + cartDTO.getProductQuantity();
+            productInfo.setProductStock(stock);
+            productInfoRepository.save(productInfo);
+        }
+    }
+
+
 }

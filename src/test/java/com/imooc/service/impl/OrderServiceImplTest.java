@@ -1,12 +1,17 @@
 package com.imooc.service.impl;
 
 import com.imooc.dataobject.OrderDetail;
+import com.imooc.dataobject.OrderMaster;
 import com.imooc.dto.OrderDTO;
+import com.imooc.enums.OrderStatusEnum;
+import com.imooc.enums.PayStatusEnum;
+import com.imooc.repository.OrderMasterRepository;
 import com.imooc.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -34,9 +39,11 @@ import static org.junit.Assert.*;
 public class OrderServiceImplTest {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderMasterRepository orderMasterRepository;
 
     @Test
-    public void createOrder() {
+    public void createOrderTest() {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setBuyerAddress("小寨西路");
         orderDTO.setBuyerOpenid("s8df89df9");
@@ -61,7 +68,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void testFindOne() throws Exception {
+    public void testFindOneTest() throws Exception {
         String orderId = "1551793579391700744";
         OrderDTO result = orderService.findOne(orderId);
         log.info(result.toString());
@@ -69,9 +76,31 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void findList() {
-        PageRequest request =  PageRequest.of(0,5);
-        Page<OrderDTO> orderDTOPage = orderService.findList("s8df89df9",request);
+    public void findListTest() {
+        PageRequest request = PageRequest.of(0, 5);
+        Page<OrderDTO> orderDTOPage = orderService.findList("s8df89df9", request);
         log.info(orderDTOPage.toString());
+    }
+
+    @Test
+    public void cancelTest() {
+        OrderDTO orderDTO = orderService.findOne("1552357856296415754");
+        OrderDTO result = orderService.cancelOrder(orderDTO);
+        Assert.assertEquals(OrderStatusEnum.CANCEL.getStatusCode(), result.getOrderStatus());
+        Assert.assertEquals(PayStatusEnum.REFUNDS.getPayStatusCode(), result.getPayStatus());
+    }
+
+    @Test
+    public void finishTest() {
+        OrderDTO orderDTO = orderService.findOne("1552357856296415754");
+        OrderDTO result = orderService.finishOrder(orderDTO);
+        Assert.assertEquals(OrderStatusEnum.FINISHED.getStatusCode(), result.getOrderStatus());
+    }
+
+    @Test
+    public void paidTest() {
+        OrderDTO orderDTO = orderService.findOne("1552357856296415754");
+        OrderDTO result = orderService.paidOrder(orderDTO);
+        Assert.assertEquals(PayStatusEnum.SUCCESS.getPayStatusCode(), orderDTO.getPayStatus());
     }
 }

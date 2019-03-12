@@ -7,7 +7,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 @Getter
 public enum PayStatusEnum {
     WAIT(0, "等待支付"),
-    SUCCESS(1, "支付成功");
+    SUCCESS(1, "支付成功"),
+    REFUNDS(2,"退款成功");
     private Integer payStatusCode;
     private String payStatusMsg;
 
