@@ -1,6 +1,5 @@
 package com.imooc.service.impl;
 
-import com.imooc.VO.ProductInfoVO;
 import com.imooc.converter.OrderMaster2OrderDTOConverter;
 import com.imooc.dataobject.OrderDetail;
 import com.imooc.dataobject.OrderMaster;
@@ -9,7 +8,6 @@ import com.imooc.dto.CartDTO;
 import com.imooc.dto.OrderDTO;
 import com.imooc.enums.OrderStatusEnum;
 import com.imooc.enums.PayStatusEnum;
-import com.imooc.enums.ProductStatusEnum;
 import com.imooc.enums.ResultEnum;
 import com.imooc.exception.SellException;
 import com.imooc.repository.OrderDetailRepository;
@@ -17,7 +15,7 @@ import com.imooc.repository.OrderMasterRepository;
 import com.imooc.repository.ProductInfoRepository;
 import com.imooc.service.OrderService;
 import com.imooc.service.ProductService;
-import com.imooc.utils.IdGeneratorUtil;
+import com.imooc.util.IdGeneratorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
