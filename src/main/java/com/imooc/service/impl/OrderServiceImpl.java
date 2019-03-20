@@ -60,8 +60,7 @@ public class OrderServiceImpl implements OrderService {
         String orderId = IdGeneratorUtil.getUniqueId();
         for (OrderDetail orderDetail : orderDTO.getDetailList()) {
             ProductInfo productInfo = productInfoRepository.
-                    findById(orderDetail.getProductId())
-                    .orElse(null);
+                    findOne(orderDetail.getProductId());
             if (productInfo == null) {
                 throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
             }
@@ -99,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDTO findOne(String orderId) {
-        OrderMaster orderMaster = orderMasterRepository.findById(orderId).orElse(null);
+        OrderMaster orderMaster = orderMasterRepository.findOne(orderId);
         if (orderMaster == null) {
             // 订单不存在
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
@@ -140,7 +139,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO cancelOrder(OrderDTO orderDTO) {
 
         // 查看订单状态
-        OrderMaster result = orderMasterRepository.findById(orderDTO.getOrderId()).orElse(null);
+        OrderMaster result = orderMasterRepository.findOne(orderDTO.getOrderId());
         if (result == null) {
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }

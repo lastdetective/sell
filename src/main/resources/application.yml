@@ -1,16 +1,20 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    #driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: Leavezhongway!
-    url: jdbc:mysql://localhost/sell?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    password: 123456
+    url: jdbc:mysql://192.168.0.13/sell?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: true
   jackson:
     default-property-inclusion: non_null
 server:
-  servlet:
-    context-path: /sell
-  port: 9001
-
-
+  port: 8080
+  ## 如果是 spring-boot 2.0
+  #serlvlet:
+  #  context-path
+  context-path: /sell
+wechat:
+  mpAppId: wx485677689e4e600d
+  mpAppSecret: 484d6e0ce8a2a81f9a147226de04d1b6

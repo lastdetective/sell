@@ -77,7 +77,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void findListTest() {
-        PageRequest request = PageRequest.of(0, 5);
+        PageRequest request = new PageRequest(0, 5);
         Page<OrderDTO> orderDTOPage = orderService.findList("s8df89df9", request);
         log.info(orderDTOPage.toString());
     }

@@ -6,6 +6,7 @@ import com.imooc.dto.OrderDTO;
 import com.imooc.enums.ResultEnum;
 import com.imooc.exception.SellException;
 import com.imooc.form.OrderForm;
+import com.imooc.service.BuyerService;
 import com.imooc.service.OrderService;
 import com.imooc.util.ResultVOUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,9 @@ public class BuyerOrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private BuyerService buyerService;
+
     @PostMapping("/create")
     public ResultVO<Map<String, String>> create(@Valid OrderForm orderForm,
                                                 BindingResult bindingResult) {
@@ -69,7 +73,7 @@ public class BuyerOrderController {
             log.error("【查询订单列表】openid为空");
             throw new SellException(ResultEnum.PARAM_ERROR);
         }
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = new PageRequest(page, size);
         Page<OrderDTO> orderDTOPage = orderService.findList(openid, pageRequest);
         return ResultVOUtil.success(orderDTOPage.getContent());
     }
@@ -84,8 +88,9 @@ public class BuyerOrderController {
     @GetMapping("/detail")
     public ResultVO<OrderDTO> detail(@RequestParam("openid") String openid,
                                      @RequestParam("orderId") String orderId) {
-        // TODO 这样做是不安全的，因为不能让随便一个人都可以查询别人的订单
-        OrderDTO result = orderService.findOne(orderId);
+        /*// TODO 这样做是不安全的，因为不能让随便一个人都可以查询别人的订单
+        OrderDTO result = orderService.findOne(orderId);*/
+        OrderDTO result = buyerService.findOrderOne(openid, orderId);
         return ResultVOUtil.success(result);
     }
 
@@ -94,10 +99,10 @@ public class BuyerOrderController {
      */
     @PostMapping("/cancel")
     public ResultVO<OrderDTO> cancel(@RequestParam("openid") String openid,
-                                    @RequestParam("orderId") String orderId) {
+                                     @RequestParam("orderId") String orderId) {
         // TODO 不安全的方法
-        OrderDTO orderDTO = orderService.findOne(orderId);
-        OrderDTO result = orderService.cancelOrder(orderDTO);
+        // OrderDTO orderDTO = buyerService.findOrderOne(openid, orderId);
+        OrderDTO result = buyerService.cancelOrder(openid, orderId);
         return ResultVOUtil.success(result);
     }
 }

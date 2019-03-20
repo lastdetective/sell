@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductInfo findOne(String productId) {
-        return productInfoRepository.findById(productId).orElse(null);
+        return productInfoRepository.findOne(productId);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     public void decreaseQuantity(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO : cartDTOList) {
             ProductInfo productInfo = productInfoRepository
-                    .findById(cartDTO.getProductId()).orElse(null);
+                    .findOne(cartDTO.getProductId());
             if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
@@ -74,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
     public void increaseQuantity(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO : cartDTOList) {
             ProductInfo productInfo = productInfoRepository
-                    .findById(cartDTO.getProductId()).orElse(null);
+                    .findOne(cartDTO.getProductId());
             if (productInfo == null) {
                 throw new SellException(ResultEnum.PRODUCT_NOT_EXIST.PRODUCT_NOT_EXIST);
             }

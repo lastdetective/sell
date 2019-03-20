@@ -22,14 +22,14 @@ public class ProductCategoryRepositoryTest {
     @Test
     public void findOneTest() {
         ProductCategory productCategory =
-                repository.findById(2).orElse(null);
+                repository.findOne(2);
         log.info(productCategory.toString());
 
     }
 
     @Test
     public void saveTest() {
-        ProductCategory productCategory = repository.findById(2).orElse(null);
+        ProductCategory productCategory = repository.findOne(2);
         ProductCategory productCategory2 = new ProductCategory();
         productCategory2.setCategoryType(221);
         productCategory2.setCategoryName("我的名字");
